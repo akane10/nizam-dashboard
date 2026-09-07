@@ -1,0 +1,60 @@
+<main class="page">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Plant floor</p>
+      <h1>Unit status</h1>
+    </div>
+    <div class="summary" data-summary>
+      <div class="stat">
+        <span class="stat-value" data-units>{{summary.units}}</span>
+        <span class="stat-label">Units</span>
+      </div>
+      <div class="stat is-normal">
+        <span class="stat-value" data-normal>{{summary.normal}}</span>
+        <span class="stat-label">Normal</span>
+      </div>
+      <div class="stat is-trip">
+        <span class="stat-value" data-trip>{{summary.trip}}</span>
+        <span class="stat-label">Trip</span>
+      </div>
+      <div class="stat is-offline">
+        <span class="stat-value" data-offline>{{summary.offline}}</span>
+        <span class="stat-label">Offline</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="units" aria-label="Units">
+    {{#each units}}
+      <article class="unit" data-unit-id="{{id}}">
+        <div class="unit-head">
+          <div>
+            <p class="code">U-0{{id}}</p>
+            <h2>{{name}}</h2>
+          </div>
+          <p class="unit-count">
+            <span data-unit-normal>{{unitNormalCount transporters}}</span>/4 normal
+          </p>
+        </div>
+
+        <div class="transporters">
+          {{#each transporters}}
+            <div class="card {{statusClass status}}" data-transporter-id="{{id}}">
+              <div class="card-top">
+                <span class="code">T-0{{id}}</span>
+                <span class="status">
+                  <span class="dot" aria-hidden="true"></span>
+                  <span data-status-label>{{statusLabel status}}</span>
+                </span>
+              </div>
+              <h3>{{name}}</h3>
+              <p class="updated">Updated <time data-updated datetime="{{lastChange}}">just now</time></p>
+            </div>
+          {{/each}}
+        </div>
+      </article>
+    {{/each}}
+  </section>
+</main>
+
+<script src="/js/dashboard.js"></script>
