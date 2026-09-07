@@ -41,19 +41,19 @@ body {
   margin-bottom: 28px;
 }
 
-.eyebrow {
-  margin: 0 0 8px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 12px;
+h1 {
+  margin: 0;
+  font-size: 42px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
   font-weight: 600;
 }
 
-h1 {
-  margin: 0;
-  font-size: 40px;
-  letter-spacing: -0.03em;
+.subtitle {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .summary {
@@ -223,7 +223,7 @@ h1 {
   }
 
   h1 {
-    font-size: 32px;
+    font-size: 28px;
   }
 
   .transporters {

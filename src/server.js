@@ -50,7 +50,7 @@ function requireApiKey(req, res, next) {
 
 app.get("/", (req, res) => {
   res.render("dashboard", {
-    title: "Unit Dashboard",
+    title: "BUMER - Transporter Monitoring System",
     units: units.listUnits(),
     summary: units.summary(),
   });
