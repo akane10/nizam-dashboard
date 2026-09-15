@@ -10,6 +10,20 @@
   --trip-soft: rgba(224, 122, 95, 0.14);
   --offline: #8b9386;
   --offline-soft: rgba(139, 147, 134, 0.14);
+  --unit-1: #5eb0ff;
+  --unit-1-soft: rgba(94, 176, 255, 0.28);
+  --unit-2: #f5d64a;
+  --unit-2-soft: rgba(245, 214, 74, 0.28);
+  --unit-3: #ff9a3d;
+  --unit-3-soft: rgba(255, 154, 61, 0.28);
+  --transporter-1: #38bdf8;
+  --transporter-1-soft: rgba(56, 189, 248, 0.16);
+  --transporter-2: #c084fc;
+  --transporter-2-soft: rgba(192, 132, 252, 0.16);
+  --transporter-3: #fb7185;
+  --transporter-3-soft: rgba(251, 113, 133, 0.16);
+  --transporter-4: #34d399;
+  --transporter-4-soft: rgba(52, 211, 153, 0.16);
   --shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
 }
 
@@ -102,11 +116,54 @@ h1 {
 }
 
 .unit {
-  padding: 20px;
+  padding: 20px 20px 20px 24px;
   border-radius: 24px;
-  border: 1px solid var(--panel-border);
-  background: rgba(26, 33, 24, 0.72);
+  border: 2px solid var(--panel-border);
+  border-left-width: 8px;
+  background: #2a3428;
   box-shadow: var(--shadow);
+}
+
+.unit[data-unit-id="1"] {
+  border-color: rgba(94, 176, 255, 0.7);
+  border-left-color: var(--unit-1);
+  background:
+    linear-gradient(90deg, var(--unit-1-soft), transparent 42%),
+    #2f3b32;
+}
+
+.unit[data-unit-id="1"] .code,
+.unit[data-unit-id="1"] .unit-head h2,
+.unit[data-unit-id="1"] .unit-count {
+  color: var(--unit-1);
+}
+
+.unit[data-unit-id="2"] {
+  border-color: rgba(245, 214, 74, 0.7);
+  border-left-color: var(--unit-2);
+  background:
+    linear-gradient(90deg, var(--unit-2-soft), transparent 42%),
+    #2f3b32;
+}
+
+.unit[data-unit-id="2"] .code,
+.unit[data-unit-id="2"] .unit-head h2,
+.unit[data-unit-id="2"] .unit-count {
+  color: var(--unit-2);
+}
+
+.unit[data-unit-id="3"] {
+  border-color: rgba(255, 154, 61, 0.7);
+  border-left-color: var(--unit-3);
+  background:
+    linear-gradient(90deg, var(--unit-3-soft), transparent 42%),
+    #2f3b32;
+}
+
+.unit[data-unit-id="3"] .code,
+.unit[data-unit-id="3"] .unit-head h2,
+.unit[data-unit-id="3"] .unit-count {
+  color: var(--unit-3);
 }
 
 .unit-head {
@@ -136,8 +193,49 @@ h1 {
 .card {
   padding: 18px;
   border-radius: 18px;
-  border: 1px solid var(--panel-border);
+  border: 2px solid var(--panel-border);
+  border-top-width: 6px;
   background: var(--panel);
+}
+
+.card[data-transporter-id="1"] {
+  border-top-color: var(--transporter-1);
+  background: linear-gradient(180deg, var(--transporter-1-soft), var(--panel) 36%);
+}
+
+.card[data-transporter-id="1"] .code,
+.card[data-transporter-id="1"] h3 {
+  color: var(--transporter-1);
+}
+
+.card[data-transporter-id="2"] {
+  border-top-color: var(--transporter-2);
+  background: linear-gradient(180deg, var(--transporter-2-soft), var(--panel) 36%);
+}
+
+.card[data-transporter-id="2"] .code,
+.card[data-transporter-id="2"] h3 {
+  color: var(--transporter-2);
+}
+
+.card[data-transporter-id="3"] {
+  border-top-color: var(--transporter-3);
+  background: linear-gradient(180deg, var(--transporter-3-soft), var(--panel) 36%);
+}
+
+.card[data-transporter-id="3"] .code,
+.card[data-transporter-id="3"] h3 {
+  color: var(--transporter-3);
+}
+
+.card[data-transporter-id="4"] {
+  border-top-color: var(--transporter-4);
+  background: linear-gradient(180deg, var(--transporter-4-soft), var(--panel) 36%);
+}
+
+.card[data-transporter-id="4"] .code,
+.card[data-transporter-id="4"] h3 {
+  color: var(--transporter-4);
 }
 
 .card-top {
