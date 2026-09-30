@@ -30,6 +30,8 @@ function parseTransporterId(value) {
   return match ? Number(match[1]) : NaN;
 }
 
+const pendingResets = new Map();
+
 function normalizeStatus(value) {
   const status = String(value ?? "")
     .trim()
@@ -38,8 +40,11 @@ function normalizeStatus(value) {
   if (status === "trip") {
     return "trip";
   }
-  if (status === "normal") {
+  if (status === "normal" || status === "online") {
     return "normal";
+  }
+  if (status === "offline") {
+    return "offline";
   }
   return null;
 }
@@ -68,7 +73,10 @@ function displayedStatus(unit, transporter, at = Date.now()) {
   if (!isUnitOnline(unit, at)) {
     return "offline";
   }
-  return transporter.status === "trip" ? "trip" : "normal";
+  if (transporter.status === "trip" || transporter.status === "offline") {
+    return transporter.status;
+  }
+  return "normal";
 }
 
 function decorate(unit, at = Date.now()) {
@@ -79,6 +87,7 @@ function decorate(unit, at = Date.now()) {
     transporters: unit.transporters.map((transporter) => ({
       ...transporter,
       status: displayedStatus(unit, transporter, at),
+      resetPending: pendingResets.get(unit.id)?.has(transporter.id) ?? false,
     })),
   };
 }
@@ -95,7 +104,7 @@ function touchUnit(unit) {
 function applyStatus(unitId, transporterRef, statusValue, counter) {
   const status = normalizeStatus(statusValue);
   if (!status) {
-    return { error: "status must be TRIP or NORMAL" };
+    return { error: "status must be TRIP, NORMAL, ONLINE, or OFFLINE" };
   }
 
   const unit = getUnit(unitId);
@@ -116,6 +125,39 @@ function applyStatus(unitId, transporterRef, statusValue, counter) {
   touchUnit(unit);
 
   return { transporter: { ...transporter }, unit: decorate(unit) };
+}
+
+function queueReset(unitId, transporterRef) {
+  const unit = getUnit(unitId);
+  if (!unit) {
+    return { error: "Unit not found" };
+  }
+
+  const transporter = getTransporter(unitId, parseTransporterId(transporterRef));
+  if (!transporter) {
+    return { error: "Transporter not found" };
+  }
+
+  if (!pendingResets.has(unit.id)) {
+    pendingResets.set(unit.id, new Set());
+  }
+  pendingResets.get(unit.id).add(transporter.id);
+
+  return { pending: transporter.label, unit: decorate(unit) };
+}
+
+function takePendingResets(unitId) {
+  const unit = getUnit(unitId);
+  if (!unit) {
+    return null;
+  }
+
+  const ids = pendingResets.get(unit.id) ?? new Set();
+  const labels = unit.transporters
+    .filter((transporter) => ids.has(transporter.id))
+    .map((transporter) => transporter.label);
+  pendingResets.delete(unit.id);
+  return labels;
 }
 
 function heartbeat(unitId) {
@@ -142,6 +184,8 @@ function summary() {
 module.exports = {
   listUnits,
   applyStatus,
+  queueReset,
+  takePendingResets,
   heartbeat,
   summary,
 };

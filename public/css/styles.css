@@ -271,10 +271,33 @@ h1 {
   font-size: 18px;
 }
 
+.counter,
 .updated {
   margin: 0;
   color: var(--muted);
   font-size: 13px;
+}
+
+.counter {
+  margin-bottom: 8px;
+}
+
+[data-reset-counter] {
+  width: 100%;
+  margin-top: 14px;
+  padding: 8px 10px;
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+[data-reset-counter]:disabled {
+  color: var(--muted);
+  cursor: default;
 }
 
 .card.is-normal .status {

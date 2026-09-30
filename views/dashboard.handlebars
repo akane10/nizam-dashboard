@@ -48,7 +48,9 @@
                 </span>
               </div>
               <h3>{{name}}</h3>
+              <p class="counter">Trip count <span data-counter>{{counter}}</span></p>
               <p class="updated">Updated <time data-updated datetime="{{lastChange}}">just now</time></p>
+              <button type="button" data-reset-counter>Reset counter</button>
             </div>
           {{/each}}
         </div>

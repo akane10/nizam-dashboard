@@ -52,6 +52,11 @@ function render(payload) {
       const time = card.querySelector("[data-updated]");
       time.dateTime = transporter.lastChange;
       time.textContent = formatUpdated(transporter.lastChange);
+      card.querySelector("[data-counter]").textContent = transporter.counter;
+
+      const resetButton = card.querySelector("[data-reset-counter]");
+      resetButton.disabled = transporter.resetPending;
+      resetButton.textContent = transporter.resetPending ? "Reset queued" : "Reset counter";
     }
   }
 }
@@ -60,6 +65,33 @@ async function loadUnits() {
   const response = await fetch("/api/units");
   render(await response.json());
 }
+
+document.querySelector("[data-summary]")?.closest("main")?.addEventListener("click", async (event) => {
+  const button = event.target.closest("[data-reset-counter]");
+  if (!button || button.disabled) {
+    return;
+  }
+
+  const card = button.closest("[data-transporter-id]");
+  const unitCard = button.closest("[data-unit-id]");
+  button.disabled = true;
+
+  const response = await fetch("/api/reset", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      unit: Number(unitCard.dataset.unitId),
+      transporter: Number(card.dataset.transporterId),
+    }),
+  });
+
+  if (!response.ok) {
+    button.disabled = false;
+    return;
+  }
+
+  render(await response.json());
+});
 
 loadUnits();
 setInterval(loadUnits, 5000);
